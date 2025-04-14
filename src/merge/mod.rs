@@ -72,23 +72,6 @@ pub trait DocumentMerger {
     fn resolve_conflict(&self, conflict: &Conflict, resolution: Resolution) -> Result<Document>;
 }
 
-/// Represents a conflict detected during merging
-#[derive(Debug, Clone)]
-pub struct Conflict {
-    /// Unique identifier for the conflict
-    pub id: String,
-    /// Location of the conflict in the document
-    pub location: ConflictLocation,
-    /// The conflicting content from doc1
-    pub content1: ConflictContent,
-    /// The conflicting content from doc2
-    pub content2: ConflictContent,
-    /// The base content
-    pub base_content: ConflictContent,
-    /// Conflict type
-    pub conflict_type: ConflictType,
-}
-
 /// The location of a conflict in the document
 #[derive(Debug, Clone)]
 pub struct ConflictLocation {
@@ -111,8 +94,44 @@ pub enum ConflictContent {
     Structure(String),
 }
 
-/// Types of conflicts that can occur
+// 在 ConflictType 枚举定义后添加
+/// Properties for formatting conflicts
 #[derive(Debug, Clone)]
+pub struct FormattingProperties {
+    pub text: String,              // 原始文本
+    pub bold: bool,                // 是否粗体
+    pub italic: bool,              // 是否斜体
+    pub underline: bool,           // 是否下划线
+    pub font_size: Option<u32>,    // 字体大小
+    pub font_name: Option<String>, // 字体名称
+    pub color: Option<String>,     // 颜色
+}
+
+/// Represents a conflict detected during merging
+#[derive(Debug, Clone)]
+pub struct Conflict {
+    /// Unique identifier for the conflict
+    pub id: String,
+    /// Location of the conflict in the document
+    pub location: ConflictLocation,
+    /// The conflicting content from doc1
+    pub content1: ConflictContent,
+    /// The conflicting content from doc2
+    pub content2: ConflictContent,
+    /// The base content
+    pub base_content: ConflictContent,
+    /// Conflict type
+    pub conflict_type: ConflictType,
+    /// Formatting properties from doc1 (for formatting conflicts)
+    pub format1: Option<FormattingProperties>,
+    /// Formatting properties from doc2 (for formatting conflicts)
+    pub format2: Option<FormattingProperties>,
+    /// Base formatting properties (for formatting conflicts)
+    pub base_format: Option<FormattingProperties>,
+}
+
+/// Types of conflicts that can occur
+#[derive(Debug, Clone, PartialEq)]
 pub enum ConflictType {
     /// Both documents modified the same content
     ContentConflict,
@@ -139,4 +158,31 @@ pub enum Resolution {
     UseCustom(String),
     /// Merge both contents (when possible)
     MergeBoth,
+}
+
+impl Conflict {
+    /// Create a new conflict
+    pub fn new(
+        id: String,
+        location: ConflictLocation,
+        content1: ConflictContent,
+        content2: ConflictContent,
+        base_content: ConflictContent,
+        conflict_type: ConflictType,
+        format1: Option<FormattingProperties>,
+        format2: Option<FormattingProperties>,
+        base_format: Option<FormattingProperties>,
+    ) -> Self {
+        Conflict {
+            id,
+            location,
+            content1,
+            content2,
+            base_content,
+            conflict_type,
+            format1,
+            format2,
+            base_format,
+        }
+    }
 }

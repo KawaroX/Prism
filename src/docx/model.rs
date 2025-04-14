@@ -87,7 +87,7 @@ pub enum RunContent {
 }
 
 /// Represents properties of a run
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, PartialEq)]
 pub struct RunProperties {
     /// Bold formatting
     pub bold: bool,

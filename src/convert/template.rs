@@ -58,7 +58,7 @@ impl TemplateManager {
         }
 
         // 如果没有默认模板，创建一个基本模板
-        let mut document = Document::new();
+        let document = Document::new();
 
         // 添加一些基本样式
         // 在实际应用中，我们应该添加更多的样式信息
