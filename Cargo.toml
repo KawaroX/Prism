@@ -1,0 +1,79 @@
+[package]
+name = "prism"
+version = "0.1.0"
+edition = "2024"
+authors = ["Kawaro <kawaro499@outlook.com>"]
+description = "A version control system for docx files"
+license = "MIT"
+
+[dependencies]
+# 解压缩docx文件
+zip = "0.6.6"
+
+# XML解析与操作
+quick-xml = "0.31.0"
+roxmltree = "0.19.0"
+
+# 差异比较
+similar = "2.4.0"
+diffy = "0.3.0"
+
+# Git集成
+git2 = "0.18.2"
+
+# 异步运行时
+tokio = { version = "1.35.1", features = ["full"] }
+
+# 错误处理
+thiserror = "1.0.56"
+anyhow = "1.0.79"
+
+# 序列化/反序列化
+serde = { version = "1.0.196", features = ["derive"] }
+serde_json = "1.0.113"
+
+# 日志
+tracing = "0.1.40"
+tracing-subscriber = "0.3.18"
+
+# 文件系统
+tempfile = "3.10.0"
+walkdir = "2.4.0"
+
+# 进度指示器
+indicatif = "0.17.8"
+
+# HTML转义
+html-escape = "0.2.13"
+
+uuid = { version = "1.6.1", features = ["v4"] }
+chrono = "0.4.34"
+indoc = "2.0.5"
+
+# Markdown解析
+pulldown-cmark = "0.10.0"
+
+[dev-dependencies]
+# 测试工具
+pretty_assertions = "1.4.0"
+test-case = "3.3.1"
+
+[lib]
+name = "prism"
+path = "src/lib.rs"
+
+[[bin]]
+name = "prism-cli"
+path = "src/bin/main.rs"
+
+[[example]]
+name = "create_test_docs"
+path = "examples/create_test_docs.rs"
+
+[[example]]
+name = "compare_docs"
+path = "examples/compare_docs.rs"
+
+[[example]]
+name = "merge_docs"
+path = "examples/merge_docs.rs"
